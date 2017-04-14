@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class ServiceTask extends IntentService {
 
-    final int GET_LIST_OF_ORGANIZATIONS = 911;
+    final int resultCode = 911;
 
     HttpURLConnection urlConnection = null;
     BufferedReader reader = null;
@@ -145,7 +145,7 @@ public class ServiceTask extends IntentService {
         }
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("LIST_OF_ORGANIZATIONS", list);
-        receiver.send(GET_LIST_OF_ORGANIZATIONS, bundle);
+        receiver.send(resultCode, bundle);
     }
 
     boolean isInWhiteList(String title) {

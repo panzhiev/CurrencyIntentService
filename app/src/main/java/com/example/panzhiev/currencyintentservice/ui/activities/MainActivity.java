@@ -52,9 +52,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Load
         rubbtn.setOnClickListener(this);
         eurbtn = (ButtonRectangle) findViewById(R.id.button_EUR);
         eurbtn.setOnClickListener(this);
-        usdadapter = new USDAdapter(MainActivity.this, list);
-        rubadapter = new RUBAdapter(MainActivity.this, list);
-        euradapter = new EURAdapter(MainActivity.this, list);
+        usdadapter = new USDAdapter(this, list);
+        rubadapter = new RUBAdapter(this, list);
+        euradapter = new EURAdapter(this, list);
 
         loaderReceiver = new LoaderReceiver(new Handler());
         loaderReceiver.setReceiver(this);
@@ -123,6 +123,9 @@ public class MainActivity extends Activity implements View.OnClickListener, Load
         switch (resultCode) {
             case 911:
             list = resultData.getParcelableArrayList("LIST_OF_ORGANIZATIONS");
+
+                Log.d(LOG_TAG, list.toString());
+
             mSwipeRefreshLayout.setRefreshing(false);
             usdadapter.notifyDataSetChanged();
             rubadapter.notifyDataSetChanged();
