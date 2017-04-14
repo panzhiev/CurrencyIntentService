@@ -1,10 +1,13 @@
 package com.example.panzhiev.currencyintentservice.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Tim on 07.04.2017.
  */
 
-public class Organization {
+public class Organization implements Parcelable {
 
     private String title;
     private int logo;
@@ -101,5 +104,15 @@ public class Organization {
                 ", usdASK=" + usdASK +
                 ", usdBID=" + usdBID +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
