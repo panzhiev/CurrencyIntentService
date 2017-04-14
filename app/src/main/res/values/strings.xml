@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">CurrencyIntentService</string>
+    <string name="bank_A_bank">А-Банк</string>
+    <string name="bank_agro">Агрокомбанк</string>
+    <string name="alfa_bank">Альфа-Банк</string>
+    <string name="vtb_bank">ВТБ Банк</string>
+    <string name="kredit_dnepr">КРЕДИТ ДНЕПР</string>
+    <string name="otp_bank">ОТП Банк</string>
+    <string name="pivdennyj">ПИВДЕННЫЙ</string>
+    <string name="bank_privat">ПриватБанк</string>
+    <string name="radabank">РАДАБАНК</string>
+    <string name="bank_aval">Райффайзен Банк Аваль</string>
+    <string name="sberbank_russia">Сбербанк России</string>
+    <string name="ukrsibbank_bank">УкрСиббанк ДР</string>
+</resources>
