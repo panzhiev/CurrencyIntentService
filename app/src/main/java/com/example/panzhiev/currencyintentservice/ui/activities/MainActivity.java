@@ -32,7 +32,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Load
     RUBAdapter rubadapter;
     EURAdapter euradapter;
     SwipeRefreshLayout mSwipeRefreshLayout;
-
     ButtonRectangle usdbtn;
     ButtonRectangle rubbtn;
     ButtonRectangle eurbtn;
@@ -52,9 +51,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Load
         rubbtn.setOnClickListener(this);
         eurbtn = (ButtonRectangle) findViewById(R.id.button_EUR);
         eurbtn.setOnClickListener(this);
-        usdadapter = new USDAdapter(this, list);
-        rubadapter = new RUBAdapter(this, list);
-        euradapter = new EURAdapter(this, list);
 
         loaderReceiver = new LoaderReceiver(new Handler());
         loaderReceiver.setReceiver(this);
@@ -66,17 +62,15 @@ public class MainActivity extends Activity implements View.OnClickListener, Load
             @Override
             public void onRefresh() {
                 list.clear();
-                startService(new Intent(MainActivity.this, ServiceTask.class));
+                Intent intent = new Intent(MainActivity.this, ServiceTask.class);
+                intent.putExtra("receiver", loaderReceiver);
+                startService(intent);
             }
         });
 
-        usdbtn.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
-        usdbtn.invalidate();
-        rubbtn.getBackground().clearColorFilter();
-        rubbtn.invalidate();
-        eurbtn.getBackground().clearColorFilter();
-        eurbtn.invalidate();
-        listView.setAdapter(usdadapter);
+//        usdadapter = new USDAdapter(this, list);
+//        rubadapter = new RUBAdapter(this, list);
+//        euradapter = new EURAdapter(this, list);
     }
 
     @Override
@@ -114,29 +108,38 @@ public class MainActivity extends Activity implements View.OnClickListener, Load
                 break;
             default:
                 break;
-
         }
     }
 
     @Override
     public void onReceiveResult(int resultCode, Bundle resultData) {
         switch (resultCode) {
-            case 911:
-            list = resultData.getParcelableArrayList("LIST_OF_ORGANIZATIONS");
+            case ServiceTask.RESULT_CODE_INTENT_SERVICE:
+
+                Log.d(LOG_TAG, "ServiceTask.RESULT_CODE_INTENT_SERVICE = " + ServiceTask.RESULT_CODE_INTENT_SERVICE);
+                list = resultData.getParcelableArrayList("LIST_OF_ORGANIZATIONS");
 
                 Log.d(LOG_TAG, list.toString());
 
-            mSwipeRefreshLayout.setRefreshing(false);
-            usdadapter.notifyDataSetChanged();
-            rubadapter.notifyDataSetChanged();
-            euradapter.notifyDataSetChanged();
-            break;
+                usdadapter = new USDAdapter(this, list);
+                rubadapter = new RUBAdapter(this, list);
+                euradapter = new EURAdapter(this, list);
+
+                mSwipeRefreshLayout.setRefreshing(false);
+                usdbtn.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                usdbtn.invalidate();
+                rubbtn.getBackground().clearColorFilter();
+                rubbtn.invalidate();
+                eurbtn.getBackground().clearColorFilter();
+                eurbtn.invalidate();
+                listView.setAdapter(usdadapter);
+
+                usdadapter.notifyDataSetChanged();
+                rubadapter.notifyDataSetChanged();
+                euradapter.notifyDataSetChanged();
+                break;
         }
     }
 }
-//                mSwipeRefreshLayout.setRefreshing(false);
-//                usdadapter.notifyDataSetChanged();
-//                rubadapter.notifyDataSetChanged();
-//                euradapter.notifyDataSetChanged();
 
 

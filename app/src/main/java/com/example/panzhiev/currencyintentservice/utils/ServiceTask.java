@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class ServiceTask extends IntentService {
 
-    final int resultCode = 911;
+    final public static int RESULT_CODE_INTENT_SERVICE = 911;
 
     HttpURLConnection urlConnection = null;
     BufferedReader reader = null;
@@ -39,15 +39,7 @@ public class ServiceTask extends IntentService {
 
     public ServiceTask(String name) {
         super(name);
-        whiteList = new ArrayList<String>();
-        whiteList.add(getResources().getString(R.string.bank_A_bank));
-        whiteList.add(getResources().getString(R.string.alfa_bank));
-        whiteList.add(getResources().getString(R.string.vtb_bank));
-        whiteList.add(getResources().getString(R.string.otp_bank));
-        whiteList.add(getResources().getString(R.string.pivdennyj));
-        whiteList.add(getResources().getString(R.string.bank_privat));
-        whiteList.add(getResources().getString(R.string.radabank));
-        whiteList.add(getResources().getString(R.string.bank_aval));
+
     }
 
     @Override
@@ -77,6 +69,16 @@ public class ServiceTask extends IntentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        whiteList = new ArrayList<String>();
+        whiteList.add(getResources().getString(R.string.bank_A_bank));
+        whiteList.add(getResources().getString(R.string.alfa_bank));
+        whiteList.add(getResources().getString(R.string.vtb_bank));
+        whiteList.add(getResources().getString(R.string.otp_bank));
+        whiteList.add(getResources().getString(R.string.pivdennyj));
+        whiteList.add(getResources().getString(R.string.bank_privat));
+        whiteList.add(getResources().getString(R.string.radabank));
+        whiteList.add(getResources().getString(R.string.bank_aval));
 
         try {
             dataJsonObj = new JSONObject(response); //organizations
@@ -136,6 +138,10 @@ public class ServiceTask extends IntentService {
                 }
             }
 
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("LIST_OF_ORGANIZATIONS", list);
+            receiver.send(RESULT_CODE_INTENT_SERVICE, bundle);
+
             for (Organization o : list) {
                 Log.d(LOG_TAG, "latest" + o.toString());
             }
@@ -143,9 +149,6 @@ public class ServiceTask extends IntentService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("LIST_OF_ORGANIZATIONS", list);
-        receiver.send(resultCode, bundle);
     }
 
     boolean isInWhiteList(String title) {
